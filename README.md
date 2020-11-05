@@ -33,7 +33,9 @@ The scanner object will move through each input twice, the first time to find th
 
 	private static int countLines(String filename) { Scanner infile = openFile(filename); 
 	int count = 0; 
-	while (infile.hasNextLine()){String s = infile.nextLine(); 	count++; } 
+	while (infile.hasNextLine()){
+		String s = infile.nextLine(); 	
+		count++; } 
 	infile.close(); // make the file available for reuse 
 	return count; }
 
@@ -59,3 +61,6 @@ I will use bianary search to move through  the arrays and locate common words. O
 
 > Written with [StackEdit](https://stackedit.io/).
 
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTMzNTU5Mzg2OV19
+-->
