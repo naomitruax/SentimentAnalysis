@@ -60,8 +60,7 @@ After the split method is called, String [] words will contains "I" "am" "excite
 
 I will use bianary search to move through  the arrays and locate common words. Once these words have been located, the "getScore" and "getZero" methods will return a corresponding score. This score will increment the total value of the user input text. 
 
-> Written with [StackEdit](https://stackedit.io/).
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTk3OTYzMjk2OV19
+eyJoaXN0b3J5IjpbLTM3MDQ2MDY3XX0=
 -->
