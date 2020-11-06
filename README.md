@@ -31,11 +31,14 @@ The scanner object (which will be used to count and read the input texts) will b
 ### Sizing the Array
 The scanner object will move through each input twice, the first time to find the size of the array and a second time to fill it. 
 
-	private static int countLines(String filename) { Scanner infile = openFile(filename); 
-	int count = 0; 
-	while (infile.hasNextLine()){String s = infile.nextLine(); 	count++; } 
-	infile.close(); // make the file available for reuse 
-	return count; }
+	private static int countLines(String filename) { 
+		Scanner infile = openFile(filename); 
+		int count = 0; 
+		while (infile.hasNextLine()){
+			String s = infile.nextLine(); 	
+			count++; } 
+		infile.close(); // make the file available for reuse 
+		return count;}
 
 The value of count will be used when initializing the arrays of strings. 
 
@@ -57,5 +60,7 @@ After the split method is called, String [] words will contains "I" "am" "excite
 
 I will use bianary search to move through  the arrays and locate common words. Once these words have been located, the "getScore" and "getZero" methods will return a corresponding score. This score will increment the total value of the user input text. 
 
-> Written with [StackEdit](https://stackedit.io/).
 
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTM3MDQ2MDY3XX0=
+-->
