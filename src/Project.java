@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.io.*;
 
-public class Prototype {
+public class Project {
 
     public static void main (String[] args) {
 
@@ -18,10 +18,6 @@ public class Prototype {
         //more searching is necessary in order to determine what kind of data set this should be
         String userTextFile = args[2];
 
-        System.out.println(dictionaryFile);
-        System.out.println(stopWordsFile);
-        System.out.println(userTextFile);
-
         //create scanner object
         Scanner dictionaryScanner =  openFile(dictionaryFile);
         Scanner stopWordsScanner = openFile(stopWordsFile);
@@ -32,14 +28,29 @@ public class Prototype {
         int stopWordsNumLines = countLines(stopWordsFile);
         //int userText must first be tokenized before it can be sized(?)
 
-        wordScore [] aFinnDictionary = new wordScore[dictionaryNumLines];
-        stopWord [] stopWords = new stopWord[stopWordsNumLines];
-        stopWordScanner(stopWordsScanner, stopWords);
+        word [] words = new word[stopWordsNumLines + dictionaryNumLines];
 
-        wordScore [] wordScores = new wordScore[dictionaryNumLines];
-        wordScoreScanner(dictionaryScanner, wordScores);
+        words = stopWordScanner(stopWordsScanner, words);
+        words = wordScoreScanner(dictionaryScanner, words, stopWordsNumLines);
+
+        words = textBlock.alphabetize_2(words);
+
+        System.out.println("AFINN.txt and stopWords.txt words with corresponding score:");
+        //test to ensure that words array (of stop words and dictionary words) is alphabetized
+        for (int i = 0; i < words.length; i++){
+            System.out.println(words[i].getWord() + " " + words[i].getScore());
+        }
+
+        textBlock [] textBlocks = new textBlock[1];
+        textBlocks = userTextScanner(userTextScanner, textBlocks, words);
+
+
+
     }
-        //must figure out how large the array is
+
+
+
+    //must figure out how large the array is
         //once to count the lines
     public static int countLines(String filename) {
             Scanner scan = openFile(filename);
@@ -54,7 +65,7 @@ public class Prototype {
 
     public static Scanner openFile(String s) {
         try {
-            System.out.println(s);
+            //System.out.println(s);
             //File currentFile = new File(s);
             //Scanner scan = new Scanner(currentFile);
             Scanner scan = new Scanner(new java.io.FileReader(s));
@@ -69,56 +80,53 @@ public class Prototype {
         //each file will have a separate scanner method
             //the stop words will be parsed into words each assigned a value of zero
 
-    public static void stopWordScanner(Scanner scan, stopWord [] stopWords){
+    public static word [] stopWordScanner(Scanner scan, word [] stopWords){
        int count = 0;
         while(scan.hasNext()){
             String nextWord = scan.next();
-            System.out.println(nextWord);
-            stopWord nextStopWord = new stopWord(nextWord);
-            stopWords[count] = nextStopWord;
+            //System.out.println(nextWord);
+
+            word nextWordScore = new word(nextWord, 0);
+            stopWords[count] = nextWordScore;
             count ++;
         }
+        return stopWords;
     }
-
         //the dictionary will be parsed into words and scores alphabetically
         //reading and assigning each characteristic (nextString and nextInt) in a for loop
-        //String word = scan.next(“\H”);
-        //int score = scan.nextInt();
         //this will be done by creating a class wordScore of wordScore objects
         //a constructor will initialize each instance of the wordScore objects with the word and corresponding score
 
-    public static void wordScoreScanner(Scanner scan, wordScore [] wordScores){
-       int count = 0;
+    public static word [] wordScoreScanner(Scanner scan, word [] wordScores, int offset){
+       int count = offset;
         while(scan.hasNext()){
-            // "\H" not a valid expression
-            String word = scan.next();
-            int score = scan.nextInt();
+            String line = scan.nextLine();
+            String[] tokens = line.split("\t");
 
-            wordScore nextWordScore = new wordScore(word, score);
+            String nextWord = tokens[0];
+            int score = Integer.parseInt(tokens[1]);
+            //System.out.println(nextWord + " " + score);
+
+            word nextWordScore = new word(nextWord, score);
             wordScores[count] = nextWordScore;
             count ++;
         }
+        return wordScores;
     }
-            //the text file will be stored as a string that will be tokenized and used later in the analysis
 
-        //once all inputs have been properly stored, the process of analyzing the users text will commence
-        //this will be done through binary search
-        //the following structure may be useful when find the value of each post
-            //incrementing by getScore() rather than nextInt()
+    //scanner for user input
+    public static textBlock [] userTextScanner (Scanner scan, textBlock [] textBlocks, word [] words){
+        //each post will exist on its own line
+        int count = 0;
+        while(scan.hasNext()){
+            String line = scan.nextLine();
 
-        //private static int addNumbers (Scanner infile) {
-            //int sum = 0;
-            //while (infile.hasNextInt()) {
-                //sum += infile.nextInt();
-            //}
-            //infile.close();
-            //return sum;
-        //}
+            textBlock nextTextBlock = new textBlock(line, words);
 
-        //not yet sure where the binary search method will be located
-        //not entirely sure of the format that i want the program to return
-        //as i advance this code, i hope to find more complex and interesting ways of analyzing the input text
-        //for example, can i get my program to tell me if there are common words that are not represented in my dictionary?
-            //if so, can i add them to my wordScore class with an assigned value?
+            textBlocks[count] = nextTextBlock;
+            count ++;
+        }
+        return textBlocks;
     }
+}
 
