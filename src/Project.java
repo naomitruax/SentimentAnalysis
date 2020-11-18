@@ -26,7 +26,6 @@ public class Project {
         //following variables store the length that each array will need to be initialized at
         int dictionaryNumLines = countLines(dictionaryFile);
         int stopWordsNumLines = countLines(stopWordsFile);
-        //int userText must first be tokenized before it can be sized(?)
 
         word [] words = new word[stopWordsNumLines + dictionaryNumLines];
 
@@ -35,20 +34,10 @@ public class Project {
 
         words = textBlock.alphabetize_2(words);
 
-        System.out.println("AFINN.txt and stopWords.txt words with corresponding score:");
-        //test to ensure that words array (of stop words and dictionary words) is alphabetized
-        for (int i = 0; i < words.length; i++){
-            System.out.println(words[i].getWord() + " " + words[i].getScore());
-        }
-
-        textBlock [] textBlocks = new textBlock[1];
+        int userTextNumLines = countLines(userTextFile);
+        textBlock [] textBlocks = new textBlock[userTextNumLines];
         textBlocks = userTextScanner(userTextScanner, textBlocks, words);
-
-
-
     }
-
-
 
     //must figure out how large the array is
         //once to count the lines
@@ -121,7 +110,7 @@ public class Project {
         while(scan.hasNext()){
             String line = scan.nextLine();
 
-            textBlock nextTextBlock = new textBlock(line, words);
+            textBlock nextTextBlock = new textBlock(line, words, count);
 
             textBlocks[count] = nextTextBlock;
             count ++;
